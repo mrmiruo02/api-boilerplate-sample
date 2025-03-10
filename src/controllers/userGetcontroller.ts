@@ -3,6 +3,7 @@ import userGet from "../Persister/getUsers.persister.ts";
 import { Request, Response } from "express";
 
 const userGetController = async (req: Request, res: Response) => {
+
   const usersList = await userGet();
 
   const parseResult = userListModel.safeParse(usersList);
