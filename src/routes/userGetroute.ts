@@ -1,6 +1,7 @@
 import express from "express";
 import userGetController from "../controllers/userGetcontroller.ts";
 
+
 const userGetRoute = express.Router();
 
 // get all the users
