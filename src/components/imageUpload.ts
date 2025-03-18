@@ -27,7 +27,19 @@ const storage = multer.diskStorage({
     cb(null, uniqueName);
   },
 });
-const upload = multer({ storage });
+
+// File filter to reject invalid files before saving
+const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+  const allowedExtensions = [".jpg", ".jpeg"];
+  const ext = path.extname(file.originalname).toLowerCase();
+
+  if (!allowedExtensions.includes(ext)) {
+    return cb(null, false);
+  }
+
+  cb(null, true);
+};
+const upload = multer({ storage, fileFilter });
 
 /**
  * @param {string} filePath 
@@ -54,15 +66,10 @@ const extractGPS = (filePath: string): GPSData | null => {
  * @returns { {filePath: string, fileName: string, gpsData: GPSData | null} }
  */
 const imageProcess = (filePath: string): { filePath: string; fileName: string; gpsData: GPSData | null; } => {
-  try {
-    const fileName = path.basename(filePath);
-    const gpsData = extractGPS(filePath);
+  const fileName = path.basename(filePath);
+  const gpsData = extractGPS(filePath);
 
-    return { filePath, fileName, gpsData };
-  } catch (e) {
-    console.error("Error uploading file:", e);
-    return { filePath: "", fileName: "", gpsData: null };
-  }
+  return { filePath, fileName, gpsData };
 }
 
 export { imageProcess, upload };
