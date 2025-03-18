@@ -5,7 +5,10 @@ const sampleUploadController = async (
   req: Request,
   res: Response
 ) => {
-  if (!req.file) return res.status(400).send("No file uploaded.");
+  if (!req.file) return res.status(400).json({
+    success: false,
+    message: "Invalid format or No file uploaded."
+  });
 
   const imageData = imageProcess(req.file.path);
   if (imageData.fileName !== '' || imageData.filePath !== '' || imageData.gpsData !== null) {
