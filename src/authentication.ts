@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import { dbConfig } from "./config/db.config.ts";
 import { IAuthentication } from "./model/auth.model.ts";
+import AuthorizationError from "./errors/authorizationError.ts";
 
 dotenv.config();
 
@@ -16,24 +17,26 @@ export const authenticateToken: any = (req: express.Request, res: express.Respon
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET_KEY as string, (error: any, decoded: any) => {
       if (error) {
-        return res.status(404).json({
-          message: error,
-          error
-        });
+        throw new AuthorizationError(error);
       } else {
         res.locals.jwt = decoded;
         next();
       }
     });
   } else {
-    return res.status(401).json({
-      message: 'Unauthorized'
-    });
+    throw new AuthorizationError(
+      [
+        {
+          name: 'AuthorizationError',
+          message: 'Authentication Error: Invalid Access Token'
+        }
+      ]
+    );
   }
 };
 
 // Register user
-export const registerAuth = app.post("/auth/register", async (req, res) => {
+export const registerAuth = app.post("/auth/register", async (req, res, next) => {
   const { username, password } = req.body;
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -51,7 +54,7 @@ export const registerAuth = app.post("/auth/register", async (req, res) => {
 });
 
 // Login Route
-export const loginAuth = app.get("/auth/login", async (req, res) => {
+export const loginAuth = app.get("/auth/login", async (req, res, next) => {
   const { username, password } = req.body;
   const sql = "SELECT * FROM auth_acc WHERE name = ?";
   const values = [username];
@@ -62,8 +65,12 @@ export const loginAuth = app.get("/auth/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      res.status(401).json({ error: "Invalid credentials!" });
-      return;
+      throw new AuthorizationError([
+        {
+          name: 'AuthorizationError',
+          message: 'Invalid credentials!'
+        }
+      ])
     }
 
     // Generate JWT Token
@@ -73,6 +80,11 @@ export const loginAuth = app.get("/auth/login", async (req, res) => {
 
     res.json({ token, user: { id: user.id, name: user.name } });
   } catch (err: any) {
-    res.status(500).json({ error: err.message });
+    return next(new AuthorizationError([
+      {
+        name: 'AuthorizationError',
+        message: 'Invalid credentials!'
+      }
+    ]))
   }
 });

@@ -11,7 +11,10 @@ const userGetController = async (req: Request, res: Response): Promise<void> => 
 
   validationInput(parseResult); // Handles validation and throws if needed
 
-  res.send(parseResult.data);
+  res.status(200).json({
+    message: "successfuly retrieved usersss",
+    data: parseResult.data
+  });
 };
 
 export default userGetController;

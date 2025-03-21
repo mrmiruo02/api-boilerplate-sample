@@ -15,7 +15,10 @@ const userDeleteController = async (
 
   await deleteUserPersister(userData);
 
-  res.status(201).send("successfully deleted user");
+  res.status(201).json({
+    message: "successfully deleted user",
+    data: userData
+  });
 };
 
 export default userDeleteController;
