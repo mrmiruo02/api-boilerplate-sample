@@ -20,7 +20,10 @@ const userRegisterController = async (
 
   await insertUser(userData);
 
-  res.status(201).send("successfully registered user");
+  res.status(200).json({
+    message: "successfully registered user",
+    data: userData
+  });
 };
 
 export default userRegisterController;

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { ErrorRequestHandler } from "express";
 import { dbConfig } from "./config/db.config.ts";
 import { routes } from "./routes.ts";
 import { authenticateToken, loginAuth, registerAuth } from "./authentication.ts";
@@ -19,7 +19,7 @@ routes.forEach(({ path, route }) => {
   app.use(path, authenticateToken, route);
 });
 
-app.use('*', globalErrorHandler);
+app.use(globalErrorHandler as ErrorRequestHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
