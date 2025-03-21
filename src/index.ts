@@ -3,6 +3,7 @@ import { dbConfig } from "./config/db.config.ts";
 import { routes } from "./routes.ts";
 import { authenticateToken, loginAuth, registerAuth } from "./authentication.ts";
 import path from "path";
+import globalErrorHandler from "./middleware/globalErrorHandler.ts";
 
 const PORT = dbConfig.config.port;
 const app = express();
@@ -17,6 +18,8 @@ app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 routes.forEach(({ path, route }) => {
   app.use(path, authenticateToken, route);
 });
+
+app.use('*', globalErrorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

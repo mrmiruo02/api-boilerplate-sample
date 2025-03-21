@@ -1,18 +1,17 @@
+import validationInput from "../components/validation.ts";
 import { userListModel } from "../model/getUsers.model.ts";
 import userGet from "../Persister/getUsers.persister.ts";
 import { Request, Response } from "express";
 
-const userGetController = async (req: Request, res: Response) => {
+const userGetController = async (req: Request, res: Response): Promise<void> => {
 
   const usersList = await userGet();
 
   const parseResult = userListModel.safeParse(usersList);
 
-  if (!parseResult.success) {
-    return res.status(400).json({ error: parseResult.error.format() }); // Return validation errors
-  }
+  validationInput(parseResult); // Handles validation and throws if needed
 
-  return res.send(parseResult.data);
+  res.send(parseResult.data);
 };
 
 export default userGetController;
