@@ -1,8 +1,9 @@
 import CustomError from "./customError";
 
 class AuthorizationError extends CustomError {
-  errorCode = 401;
-  errorType = "UNAUTHORIZED";
+  statusCode = 401;
+  errorCode = "UNAUTHORIZED";
+  status = 'error';
   errors: { name: string; message: string; expiredAt?: string }[];
 
   constructor(errors: { name: string; message: string; expiredAt?: string }[]) {
@@ -14,7 +15,14 @@ class AuthorizationError extends CustomError {
 
 
   serializeErrors() {
-    return this.errors;
+    return {
+      status: this.status,
+      code: this.statusCode,
+      error: {
+        code: this.errorCode,
+        details: this.errors,
+      }
+    };
   }
 }
 

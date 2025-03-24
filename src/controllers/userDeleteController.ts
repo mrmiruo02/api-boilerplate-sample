@@ -13,11 +13,13 @@ const userDeleteController = async (
 
   const userData = parseResult.data!;
 
-  await deleteUserPersister(userData);
+  const deletedUser = await deleteUserPersister(userData);
 
   res.status(201).json({
+    status: "success",
+    code: 201,
     message: "successfully deleted user",
-    data: userData
+    data: deletedUser
   });
 };
 

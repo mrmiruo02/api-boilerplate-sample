@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import { dbConfig } from "./config/db.config.ts";
 import { IAuthentication } from "./model/auth.model.ts";
-import AuthorizationError from "./errors/authorizationError.ts";
+import AuthorizationError from "./errors/AuthorizationError.ts";
 
 dotenv.config();
 

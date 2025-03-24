@@ -1,8 +1,9 @@
 import CustomError from "./customError";
 
 class ValidationError extends CustomError {
-  errorCode = 400;
-  errorType = "VALIDATION_ERROR";
+  status = 'error';
+  statusCode = 400;
+  errorCode = "VALIDATION_ERROR";
   errors: { message: string; property: string }[];
 
   constructor(errors: { message: string; property: string }[]) {
@@ -13,7 +14,14 @@ class ValidationError extends CustomError {
   }
 
   serializeErrors() {
-    return this.errors;
+    return {
+      status: this.status,
+      code: this.statusCode,
+      error: {
+        code: this.errorCode,
+        details: this.errors,
+      }
+    };
   }
 }
 
