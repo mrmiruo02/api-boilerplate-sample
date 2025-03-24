@@ -7,11 +7,15 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
   }
 
   if (err instanceof CustomError) {
-    return res.status(err.errorCode).send({ errors: err.serializeErrors() })
+    return res.status(err.statusCode).send(err.serializeErrors())
   }
 
   // Default error response for unexpected errors
-  return res.status(500).json({ message: err });
+  return res.status(500).json({
+    code: 500,
+    status: "error",
+    error: err
+  });
 };
 
 export default errorHandler;
