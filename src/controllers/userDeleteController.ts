@@ -1,17 +1,14 @@
-import { deleteUser, DeleteUser } from "../model/userDelete.model.ts";
+import { userDeleteReqModel, UserDeleteReqModel } from "../model/userDelete.model.ts";
 import { Request, Response } from "express";
 import deleteUserPersister from "../Persister/userDelete.persister.ts";
 import validationInput from "../components/validation.ts";
 
 const userDeleteController = async (
-  req: Request<{}, {}, DeleteUser>,
+  req: Request<{}, {}, UserDeleteReqModel>,
   res: Response
 ) => {
-  const parseResult = deleteUser.safeParse(req.body);
+  const userData = validationInput(userDeleteReqModel, req.body); // Handles validation and throws if needed
 
-  validationInput(parseResult); // Handles validation and throws if needed
-
-  const userData = parseResult.data!;
 
   const deletedUser = await deleteUserPersister(userData);
 

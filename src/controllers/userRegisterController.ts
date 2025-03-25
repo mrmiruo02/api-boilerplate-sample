@@ -1,22 +1,22 @@
 import insertUser from "../Persister/insertUsers.Persister.ts";
 import validationInput from "../components/validation.ts";
-import { inputUser, InputUser } from "../model/createUsers.model.ts";
+import { userCreateReqModel, UserCreateReqModel } from "../model/createUsers.model.ts";
 import { Request, Response } from "express";
 
 /**
  * Register a user in the database with valid credentials
- * @param {Request<{}, {}, InputUser>} req 
+ * @param {Request<{}, {}, UserCreateReqModel>} req 
  * @param {Response} res 
  */
 const userRegisterController = async (
-  req: Request<{}, {}, InputUser>,
+  req: Request<{}, {}, UserCreateReqModel>,
   res: Response
 ): Promise<void> => {
-  const parseResult = inputUser.safeParse(req.body);
+  // const parseResult = userCreateReqModel.safeParse(req.body);
 
-  validationInput(parseResult); // Handles validation and throws if needed
+  const userData = validationInput(userCreateReqModel, req.body); // Handles validation and throws if needed
 
-  const userData = parseResult.data!;
+  // const userData = parseResult.data!;
 
   await insertUser(userData);
 

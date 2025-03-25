@@ -1,19 +1,19 @@
 import { RowDataPacket } from "mysql2";
 import { z } from "zod";
 
-export const userReqModel = z.object({
+export const userGetReqModel = z.object({
   id: z.number().optional()
 })
 
-export type UserReqModel = z.infer<typeof userReqModel>;
+export type UserGetReqModel = z.infer<typeof userGetReqModel>;
 
-const userGetModel = z.object({
-  id: z.number(),
-  name: z.string(),
-  nickname: z.string(),
-});
-
-export const userListModel = z.array(userGetModel);
+export const userGetResModel = z.array(
+  z.object({
+    id: z.number(),
+    name: z.string(),
+    nickname: z.string(),
+  })
+);
 
 interface resultModel extends RowDataPacket {
   id: number;
@@ -21,6 +21,6 @@ interface resultModel extends RowDataPacket {
   nickname: string;
 }
 
-type UserGetModel = z.infer<typeof userListModel>;
+type UserGetResModel = z.infer<typeof userGetResModel>;
 
-export { UserGetModel, resultModel };
+export { UserGetResModel, resultModel };
