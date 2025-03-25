@@ -10,8 +10,8 @@ const validationInput = <T>(schema: ZodSchema<T>, data: unknown): T => {
       const errorMessages: { message: string; property: string }[] = [];
 
       Object.entries(formattedErrors).forEach(([field, value]) => {
-        if (typeof value === "object" && "_errors" in value) {
-          const errors = value._errors as string[];
+        if (typeof value === "object" && Object.keys(value).includes("_errors")) {
+          const errors = (value as any)._errors as string[];
           errors.forEach((msg) => {
             errorMessages.push({ property: field, message: msg });
           });

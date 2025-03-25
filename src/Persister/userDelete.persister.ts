@@ -1,4 +1,3 @@
-import { RowDataPacket } from "mysql2";
 import { dbConfig } from "../config/db.config.ts";
 import NoDataFoundError from "../errors/NoDataFoundError.ts";
 import { searchResults, UserDeleteReqModel } from "../model/userDelete.model.ts";
