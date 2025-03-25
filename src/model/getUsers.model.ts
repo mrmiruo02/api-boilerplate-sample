@@ -1,9 +1,9 @@
-import { RowDataPacket } from "mysql2";
-import { z } from "zod";
+import { RowDataPacket } from 'mysql2';
+import { z } from 'zod';
 
 export const userGetReqModel = z.object({
-  id: z.number().optional()
-})
+  id: z.number().optional(),
+});
 
 export type UserGetReqModel = z.infer<typeof userGetReqModel>;
 

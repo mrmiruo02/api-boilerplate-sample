@@ -1,4 +1,4 @@
-declare module "exif-parser" {
+declare module 'exif-parser' {
   interface ExifData {
     tags: Record<string, any>;
     imageSize: { width: number; height: number };

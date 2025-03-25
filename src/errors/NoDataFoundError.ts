@@ -1,13 +1,13 @@
-import CustomError from "./customError";
+import CustomError from './customError';
 
 class NoDataFoundError extends CustomError {
   status = 'error';
   statusCode = 404;
-  errorCode = "NO_DATA_FOUND";
-  errors: { message: string; }[];
+  errorCode = 'NO_DATA_FOUND';
+  errors: { message: string }[];
 
-  constructor(errors: { message: string; }[]) {
-    super("No data found");
+  constructor(errors: { message: string }[]) {
+    super('No data found');
     this.errors = errors;
 
     Object.setPrototypeOf(this, NoDataFoundError.prototype);
@@ -20,7 +20,7 @@ class NoDataFoundError extends CustomError {
       error: {
         code: this.errorCode,
         details: this.errors,
-      }
+      },
     };
   }
 }
