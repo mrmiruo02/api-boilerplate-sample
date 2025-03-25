@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { imageProcess } from "../components/imageUpload";
+import ValidationError from "../errors/ValidationError";
 
 const sampleUploadController = async (
   req: Request,
@@ -13,15 +14,18 @@ const sampleUploadController = async (
   const imageData = imageProcess(req.file.path);
   if (imageData.fileName !== '' || imageData.filePath !== '' || imageData.gpsData !== null) {
     const fileUrl = `${req.protocol}://${req.get("host")}/uploads/${imageData.fileName}`;
-    res.json({
+    res.status(201).json({
       success: true,
       fileUrl,
       gpsData: imageData.gpsData || "No GPS data found",
     });
   } else {
-    return res.status(404).json({
-      message: 'invalid image format'
-    });
+    throw new ValidationError([
+      {
+        property: "image",
+        message: 'Invalid image format'
+      }
+    ])
   }
 
 };

@@ -7,8 +7,8 @@ export interface searchResults extends RowDataPacket {
   nickname: string;
 }
 
-export const deleteUser = z.object({
+export const userDeleteReqModel = z.object({
   id: z.number().min(1, "id is required"),
 });
 
-export type DeleteUser = z.infer<typeof deleteUser>;
+export type UserDeleteReqModel = z.infer<typeof userDeleteReqModel>;
