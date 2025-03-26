@@ -1,13 +1,13 @@
-import CustomError from "./customError";
+import CustomError from './customError';
 
 class ValidationError extends CustomError {
   status = 'error';
   statusCode = 400;
-  errorCode = "VALIDATION_ERROR";
+  errorCode = 'VALIDATION_ERROR';
   errors: { message: string; property: string }[];
 
   constructor(errors: { message: string; property: string }[]) {
-    super("Validation failed");
+    super('Validation failed');
     this.errors = errors;
 
     Object.setPrototypeOf(this, ValidationError.prototype);
@@ -20,7 +20,7 @@ class ValidationError extends CustomError {
       error: {
         code: this.errorCode,
         details: this.errors,
-      }
+      },
     };
   }
 }

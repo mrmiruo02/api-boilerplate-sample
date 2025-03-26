@@ -1,9 +1,9 @@
-import { RowDataPacket } from "mysql2";
-import { z } from "zod";
+import { RowDataPacket } from 'mysql2';
+import { z } from 'zod';
 
 export const userGetReqModel = z.object({
-  id: z.number().optional()
-})
+  id: z.number().optional(),
+});
 
 export type UserGetReqModel = z.infer<typeof userGetReqModel>;
 
@@ -15,7 +15,7 @@ export const userGetResModel = z.array(
   })
 );
 
-interface resultModel extends RowDataPacket {
+interface ResultModel extends RowDataPacket {
   id: number;
   name: string;
   nickname: string;
@@ -23,4 +23,4 @@ interface resultModel extends RowDataPacket {
 
 type UserGetResModel = z.infer<typeof userGetResModel>;
 
-export { UserGetResModel, resultModel };
+export { UserGetResModel, ResultModel };

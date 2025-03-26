@@ -4,7 +4,6 @@ abstract class CustomError extends Error {
   constructor(message: string) {
     super(message);
 
-
     Object.setPrototypeOf(this, CustomError.prototype);
   }
 
@@ -13,7 +12,7 @@ abstract class CustomError extends Error {
     code: number;
     error: {
       code: string;
-      details: { message: string; property?: string }[]
+      details: { message: string; property?: string }[];
     };
   };
 }
