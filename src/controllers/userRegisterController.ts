@@ -1,7 +1,8 @@
 import insertUser from '../persisters/insertUsers.Persister.ts';
-import validationInput from '../components/validation.ts';
+import validationInput from '../utils/validation.utils.ts';
 import { userCreateReqModel } from '../model/createUsers.model.ts';
 import { Request, Response } from 'express';
+import { encrypt } from '../utils/crypt.util.ts';
 
 /**
  * Register a user in the database with valid credentials
@@ -14,7 +15,12 @@ const userRegisterController = async (
 ): Promise<void> => {
   const userData = validationInput(userCreateReqModel, req.body); // Handles validation and throws if needed
 
-  await insertUser(userData);
+  const encryptData = {
+    name: encrypt(userData.name),
+    nickname: encrypt(userData.nickname),
+  };
+
+  await insertUser(encryptData);
 
   res.status(201).json({
     status: 'success',

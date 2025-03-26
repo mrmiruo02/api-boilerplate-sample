@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
 import multer from 'multer';
-import { GPSData } from './Types/imageUpload.types';
+import { GPSData } from './types/imageUpload.types';
 import ExifParser from 'exif-parser';
 
 dotenv.config();

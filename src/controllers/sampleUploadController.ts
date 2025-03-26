@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { imageProcess } from '../components/imageUpload';
+import { imageProcess } from '../utils/imageUpload.utils';
 import ValidationError from '../errors/ValidationError';
 
 const sampleUploadController = async (req: Request, res: Response) => {

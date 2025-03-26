@@ -1,7 +1,7 @@
 import { userDeleteReqModel } from '../model/userDelete.model.ts';
 import { Request, Response } from 'express';
 import deleteUserPersister from '../persisters/userDelete.persister.ts';
-import validationInput from '../components/validation.ts';
+import validationInput from '../utils/validation.utils.ts';
 
 const userDeleteController = async (req: Request, res: Response) => {
   const userData = validationInput(userDeleteReqModel, req.body); // Handles validation and throws if needed

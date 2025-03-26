@@ -14,12 +14,11 @@ const errorHandler = (
   if (err instanceof CustomError) {
     return res.status(err.statusCode).send(err.serializeErrors());
   }
-
   // Default error response for unexpected errors
   return res.status(500).json({
     code: 500,
     status: 'error',
-    error: err,
+    error: err.message,
   });
 };
 
