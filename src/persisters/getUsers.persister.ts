@@ -1,10 +1,10 @@
 import { dbConfig } from '../config/db.config.ts';
 import NoDataFoundError from '../errors/NoDataFoundError.ts';
-import { resultModel, UserGetReqModel } from '../model/getUsers.model.ts';
+import { ResultModel, UserGetReqModel } from '../model/getUsers.model.ts';
 
 const getUsers = async (params: UserGetReqModel) => {
   if (!params.id) {
-    const [res] = await dbConfig.connection.query<resultModel[]>(
+    const [res] = await dbConfig.connection.query<ResultModel[]>(
       'SELECT * FROM users'
     );
 
@@ -13,7 +13,7 @@ const getUsers = async (params: UserGetReqModel) => {
     const query = 'SELECT * FROM users WHERE id = ?';
     const input = [params.id];
 
-    const [res] = await dbConfig.connection.execute<resultModel[]>(
+    const [res] = await dbConfig.connection.execute<ResultModel[]>(
       query,
       input
     );

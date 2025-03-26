@@ -21,6 +21,25 @@
   "rules": {
     "prettier/prettier": "error",
     "@typescript-eslint/no-explicit-any": "warn",
-    "@typescript-eslint/explicit-module-boundary-types": "off"
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "eqeqeq": "warn",
+    "semi": [
+      "warn",
+      "always"
+    ],
+    "indent": [
+      "warn",
+      2
+    ],
+    "quotes": [
+      "warn",
+      "double"
+    ],
+    "comma-dangle": [
+      "warn",
+      "never"
+    ]
   }
 }

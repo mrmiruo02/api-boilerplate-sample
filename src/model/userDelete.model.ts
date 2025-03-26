@@ -1,7 +1,7 @@
 import { RowDataPacket } from 'mysql2';
 import { z } from 'zod';
 
-export interface searchResults extends RowDataPacket {
+export interface SearchResults extends RowDataPacket {
   id: number;
   name: string;
   nickname: string;
