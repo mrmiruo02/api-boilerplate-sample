@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import express from 'express';
 import * as jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -12,6 +11,7 @@ dotenv.config();
 const app = express();
 
 // Middleware to Verify JWT
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const authenticateToken: any = (
   req: express.Request,
   res: express.Response,
@@ -23,6 +23,7 @@ export const authenticateToken: any = (
     jwt.verify(
       token,
       process.env.JWT_SECRET_KEY as string,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (error: any, decoded: any) => {
         if (error) {
           throw new AuthorizationError(error);
@@ -54,6 +55,7 @@ export const registerAuth = app.post('/auth/register', async (req, res) => {
     await dbConfig.connection.query(sql, values).then(() => {
       res.status(201).json({ message: 'User registered successfully!' });
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
@@ -92,6 +94,7 @@ export const loginAuth = app.get('/auth/login', async (req, res, next) => {
     );
 
     res.json({ token, user: { id: user.id, name: user.name } });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     return next(
       new AuthorizationError([

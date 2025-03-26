@@ -1,16 +1,16 @@
-import dotenv from "dotenv";
-import path from "path";
-import fs from "fs";
-import multer from "multer";
-import { GPSData } from "./Types/imageUpload.types";
-import ExifParser from "exif-parser";
+import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
+import multer from 'multer';
+import { GPSData } from './Types/imageUpload.types';
+import ExifParser from 'exif-parser';
 
 dotenv.config();
 
 /**
  * Ensure 'uploads' directory exists
  */
-const UPLOADS_FOLDER = path.join(__dirname, "..", "..", "uploads");
+const UPLOADS_FOLDER = path.join(__dirname, '..', '..', 'uploads');
 if (!fs.existsSync(UPLOADS_FOLDER)) {
   fs.mkdirSync(UPLOADS_FOLDER, { recursive: true });
 }
@@ -29,8 +29,12 @@ const storage = multer.diskStorage({
 });
 
 // File filter to reject invalid files before saving
-const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-  const allowedExtensions = [".jpg", ".jpeg"];
+const fileFilter = (
+  req: unknown,
+  file: Express.Multer.File,
+  cb: multer.FileFilterCallback
+) => {
+  const allowedExtensions = ['.jpg', '.jpeg'];
   const ext = path.extname(file.originalname).toLowerCase();
 
   if (!allowedExtensions.includes(ext)) {
@@ -42,7 +46,7 @@ const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCa
 const upload = multer({ storage, fileFilter });
 
 /**
- * @param {string} filePath 
+ * @param {string} filePath
  * Function to extract GPS data from an image
  * @returns { latitude: string, longitude: string, null}
  */
@@ -62,14 +66,16 @@ const extractGPS = (filePath: string): GPSData | null => {
 
 /**
  * Process an uploaded image file
- * @param {string} filePath 
+ * @param {string} filePath
  * @returns { {filePath: string, fileName: string, gpsData: GPSData | null} }
  */
-const imageProcess = (filePath: string): { filePath: string; fileName: string; gpsData: GPSData | null; } => {
+const imageProcess = (
+  filePath: string
+): { filePath: string; fileName: string; gpsData: GPSData | null } => {
   const fileName = path.basename(filePath);
   const gpsData = extractGPS(filePath);
 
   return { filePath, fileName, gpsData };
-}
+};
 
 export { imageProcess, upload };

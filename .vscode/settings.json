@@ -1,8 +1,4 @@
 {
-  "sonarlint.connectedMode.project": {
-    "connectionId": "http-localhost-9000",
-    "projectKey": "my-express-project"
-  },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "[typescript]": {
