@@ -1,6 +1,6 @@
 import express from 'express';
 import sampleUploadController from '../controllers/sampleUploadController';
-import { upload } from '../components/imageUpload';
+import { upload } from '../utils/imageUpload.utils';
 
 const sampleUploadRoute = express.Router();
 
