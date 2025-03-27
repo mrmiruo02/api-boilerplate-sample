@@ -1,14 +1,14 @@
-import { dbConfig } from '../config/db.config.ts';
+import connection from '../config/db.config.ts';
 import NoDataFoundError from '../errors/NoDataFoundError.ts';
 import {
-  SearchResults,
   UserDeleteReqModel,
+  UserDeleteResModel,
 } from '../model/userDelete.model.ts';
 
 const deleteUserPersister = async (param: UserDeleteReqModel) => {
   const search = 'SELECT * FROM users WHERE id = ?';
   const searchValue = [param.id];
-  const [searchRes] = await dbConfig.connection.query<SearchResults[]>(
+  const [searchRes] = await connection.query<UserDeleteResModel[]>(
     search,
     searchValue
   );
@@ -17,7 +17,7 @@ const deleteUserPersister = async (param: UserDeleteReqModel) => {
   }
   const query = 'DELETE FROM users WHERE id = ?';
   const values = [param.id];
-  await dbConfig.connection.execute(query, values);
+  await connection.execute(query, values);
 
   return searchRes;
 };

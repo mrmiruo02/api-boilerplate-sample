@@ -1,5 +1,5 @@
 import express, { ErrorRequestHandler } from 'express';
-import { dbConfig } from './config/db.config.ts';
+import dotenv from 'dotenv';
 import { routes } from './routes.ts';
 import {
   authenticateToken,
@@ -9,7 +9,7 @@ import {
 import path from 'path';
 import globalErrorHandler from './middleware/globalErrorHandler.ts';
 
-const PORT = dbConfig.config.port;
+dotenv.config();
 const app = express();
 
 app.use(express.json());
@@ -25,7 +25,7 @@ routes.forEach(({ path, route }) => {
 
 app.use(globalErrorHandler as ErrorRequestHandler);
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${process.env.PORT}`);
 });
