@@ -2,17 +2,16 @@ import express from 'express';
 import * as jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-import { dbConfig } from './config/db.config.ts';
 import { IAuthentication } from './model/auth.model.ts';
 import AuthorizationError from './errors/AuthorizationError.ts';
+import connection from './config/db.config.ts';
 
 dotenv.config();
 
 const app = express();
 
 // Middleware to Verify JWT
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const authenticateToken: any = (
+export const authenticateToken = (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
@@ -23,10 +22,9 @@ export const authenticateToken: any = (
     jwt.verify(
       token,
       process.env.JWT_SECRET_KEY as string,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (error: any, decoded: any) => {
+      (error: unknown, decoded: unknown) => {
         if (error) {
-          throw new AuthorizationError(error);
+          throw new AuthorizationError(error as []);
         } else {
           res.locals.jwt = decoded;
           next();
@@ -52,12 +50,13 @@ export const registerAuth = app.post('/auth/register', async (req, res) => {
   const values = [username, hashedPassword];
 
   try {
-    await dbConfig.connection.query(sql, values).then(() => {
+    await connection.query(sql, values).then(() => {
       res.status(201).json({ message: 'User registered successfully!' });
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      throw err;
+    }
   }
 });
 
@@ -68,10 +67,7 @@ export const loginAuth = app.get('/auth/login', async (req, res, next) => {
   const values = [username];
 
   try {
-    const result = await dbConfig.connection.query<IAuthentication[]>(
-      sql,
-      values
-    );
+    const result = await connection.query<IAuthentication[]>(sql, values);
     const user = result[0][0];
     const isMatch = await bcrypt.compare(password, user.password);
 

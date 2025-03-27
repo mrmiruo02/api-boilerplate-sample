@@ -15,12 +15,4 @@ export const userGetResModel = z.array(
   })
 );
 
-interface ResultModel extends RowDataPacket {
-  id: number;
-  name: string;
-  nickname: string;
-}
-
-type UserGetResModel = z.infer<typeof userGetResModel>;
-
-export { UserGetResModel, ResultModel };
+export type UserGetResModel = z.infer<typeof userGetResModel> & RowDataPacket;
