@@ -19,10 +19,10 @@ if (!fs.existsSync(UPLOADS_FOLDER)) {
  * Multer setup to store files in 'uploads' folder
  */
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, _file, cb) => {
     cb(null, UPLOADS_FOLDER);
   },
-  filename: (req, file, cb) => {
+  filename: (_req, file, cb) => {
     const uniqueName = `${Date.now()}_${file.originalname}`;
     cb(null, uniqueName);
   },
@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
 
 // File filter to reject invalid files before saving
 const fileFilter = (
-  req: unknown,
+  _req: unknown,
   file: Express.Multer.File,
   cb: multer.FileFilterCallback
 ) => {

@@ -24,7 +24,7 @@ const validationInput = <T>(schema: ZodSchema<T>, data: unknown): T => {
 
       throw new ValidationError(errorMessages);
     }
-    throw error; // Rethrow other unexpected errors
+    throw error; // throw other unexpected errors
   }
 };
 
