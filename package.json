@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start:dev": "nodemon ./src/index.ts",
+    "dev": "eslint . --ext .js,.ts && nodemon ./src/index.ts",
     "start": "node .src/index.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
