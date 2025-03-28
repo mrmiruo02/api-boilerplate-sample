@@ -16,6 +16,14 @@ const sampleUploadController = async (req: Request, res: Response) => {
     imageData.gpsData !== null
   ) {
     const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${imageData.fileName}`;
+    if (imageData.gpsData === null) {
+      throw new ValidationError([
+        {
+          property: 'image',
+          message: 'No GPS data found',
+        },
+      ]);
+    }
     res.status(201).json({
       success: true,
       fileUrl,
