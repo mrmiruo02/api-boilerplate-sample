@@ -16,7 +16,7 @@ export const authenticateToken = (
   res: express.Response,
   next: express.NextFunction
 ) => {
-  const token = req.headers.authorization?.split(' ')[1];
+  const token = req.cookies.token;
 
   if (token) {
     jwt.verify(
@@ -51,7 +51,12 @@ export const registerAuth = app.post('/auth/register', async (req, res) => {
 
   try {
     await connection.query(sql, values).then(() => {
-      res.status(201).json({ message: 'User registered successfully!' });
+      res.status(201).json({
+        status: 'success',
+        code: 201,
+        message: 'successfully registered user',
+        data: values,
+      });
     });
   } catch (err: unknown) {
     if (err instanceof Error) {
@@ -89,7 +94,20 @@ export const loginAuth = app.get('/auth/login', async (req, res, next) => {
       }
     );
 
-    res.json({ token, user: { id: user.id, name: user.name } });
+    res
+      .status(200)
+      .cookie('token', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+      })
+      .json({
+        status: 'success',
+        code: 200,
+        data: {
+          user: user.name,
+        },
+      });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     return next(

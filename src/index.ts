@@ -7,12 +7,14 @@ import {
   registerAuth,
 } from './authentication.ts';
 import path from 'path';
+import cookieParser from 'cookie-parser';
 import globalErrorHandler from './middleware/globalErrorHandler.ts';
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use('/api', registerAuth);
 app.use('/api', loginAuth);
 
