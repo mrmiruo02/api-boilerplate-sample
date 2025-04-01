@@ -8,22 +8,34 @@ if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory);
 }
 
-// Function to get the log file for today
-const getLogFileName = () => {
+/**
+ * Function to get the log file for today
+ * @returns {string}
+ */
+const getLogFileName = (): string => {
   const date = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
   return path.join(logDirectory, `app-${date}.log`);
 };
 
-// Function to format log messages
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const formatLogMessage = (level: string, message: object, meta?: any) => {
-  return JSON.stringify({ level, message, meta }) + '\n';
+/**
+ * Function to format log messages
+ * @param {string} level
+ * @param {object} message
+ * @returns {string}
+ */
+
+const formatLogMessage = (level: string, message: object): string => {
+  return JSON.stringify({ level, message }) + '\n';
 };
 
-// Function to write log messages to the file
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const writeLog = (level: string, message: object, meta?: any) => {
-  const logMessage = formatLogMessage(level, message, meta);
+/**
+ * Function to write log messages to the file
+ * @param {string} level
+ * @param {object} message
+ */
+
+const writeLog = (level: string, message: object) => {
+  const logMessage = formatLogMessage(level, message);
   // eslint-disable-next-line no-console
   console.log(logMessage);
   fs.appendFile(getLogFileName(), logMessage, (err) => {
@@ -34,7 +46,12 @@ const writeLog = (level: string, message: object, meta?: any) => {
   });
 };
 
-const createLogger = (query?: string | QueryResult) => {
+/**
+ * create a log file with message
+ * @param {string | QueryResult} query
+ * @returns {void}
+ */
+const createLogger = (query?: string | QueryResult): void => {
   const timestamp = new Date().toISOString();
   const newDate = new Date(timestamp).toLocaleString();
 
