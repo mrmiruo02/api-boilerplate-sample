@@ -1,5 +1,9 @@
 import validationInput from '../utils/validation.utils.ts';
-import { userGetReqModel, userGetResModel } from '../model/getUsers.model.ts';
+import {
+  userGetReqModel,
+  UserGetResModel,
+  userGetResModel,
+} from '../model/getUsers.model.ts';
 import userGet from '../persisters/getUsers.persister.ts';
 import { Request, Response } from 'express';
 import { decrypt } from '../utils/crypt.util.ts';
@@ -10,7 +14,7 @@ const userGetController = async (
 ): Promise<void> => {
   const userData = validationInput(userGetReqModel, req.body); // Handles validation and throws if needed
 
-  const usersList = await userGet(userData);
+  const usersList = (await userGet(userData)) as UserGetResModel;
 
   const decryptData = usersList.map((user) => ({
     id: user.id,

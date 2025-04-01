@@ -1,0 +1,2 @@
+{"level":"info","message":{"timestamp":"4/1/2025, 12:59:32 PM","message":"Query executed","sql":"SELECT * FROM users WHERE id = ?"}}
+{"level":"info","message":{"timestamp":"4/1/2025, 12:59:32 PM","message":"Query executed","result":[{"id":16,"name":"63ffee2afcd9020b64bfa167:c08165a2695c8adbbea739753d064d84:b9f5d574cb2c5fe0f3","nickname":"ef1495fa322c4ac75e7b9fd9:7b225b68496ccc021843c299966a7702:9d0c96"}]}}

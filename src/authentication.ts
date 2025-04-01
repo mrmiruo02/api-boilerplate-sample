@@ -10,12 +10,18 @@ dotenv.config();
 
 const app = express();
 
-// Middleware to Verify JWT
+/**
+ * Middleware to Verify JWT
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {void}
+ */
 export const authenticateToken = (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
-) => {
+): void => {
   const token = req.cookies.token;
 
   if (token) {

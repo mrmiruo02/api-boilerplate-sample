@@ -1,6 +1,12 @@
 import { ZodSchema, ZodError } from 'zod';
 import ValidationError from '../errors/ValidationError';
 
+/**
+ * validate inputs
+ * @param {ZodSchema<T>} schema
+ * @param {unknown} data
+ * @returns {T}
+ */
 const validationInput = <T>(schema: ZodSchema<T>, data: unknown): T => {
   try {
     return schema.parse(data); // Directly parse; throws if invalid

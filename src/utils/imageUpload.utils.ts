@@ -28,12 +28,18 @@ const storage = multer.diskStorage({
   },
 });
 
-// File filter to reject invalid files before saving
+/**
+ * File filter to reject invalid files before saving
+ * @param {unknown} _req
+ * @param {Express.Multer.File} file
+ * @param {multer.FileFilterCallback} cb
+ * @returns {void}
+ */
 const fileFilter = (
   _req: unknown,
   file: Express.Multer.File,
   cb: multer.FileFilterCallback
-) => {
+): void => {
   const allowedExtensions = ['.jpg', '.jpeg'];
   const ext = path.extname(file.originalname).toLowerCase();
 
@@ -46,8 +52,8 @@ const fileFilter = (
 const upload = multer({ storage, fileFilter });
 
 /**
- * @param {string} filePath
  * Function to extract GPS data from an image
+ * @param {string} filePath
  * @returns { latitude: string, longitude: string, null}
  */
 const extractGPS = (filePath: string): GPSData | null => {

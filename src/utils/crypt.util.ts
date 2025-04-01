@@ -4,6 +4,11 @@ import ValidationError from '../errors/ValidationError';
 
 dotenv.config();
 
+/**
+ * encrypting the data
+ * @param {string} text
+ * @returns {string}
+ */
 const encrypt = (text: string): string => {
   if (!process.env.APP_KEY) {
     throw new Error('APP_KEY is not defined');
@@ -22,6 +27,11 @@ const encrypt = (text: string): string => {
   return `${iv.toString('hex')}:${authTag.toString('hex')}:${encrypted.toString('hex')}`;
 };
 
+/**
+ * decrypting the data
+ * @param {string} text
+ * @returns {string}
+ */
 const decrypt = (text: string): string => {
   if (!process.env.APP_KEY) {
     throw new Error('APP_KEY is not defined');
