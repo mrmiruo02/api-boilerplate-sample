@@ -7,7 +7,7 @@ class DB {
    * adding conditions to the first query
    * @param {string} sql
    * @param {string} sql_query
-   * @param {any []} value
+   * @param {any[]} value
    * @returns {Promise<QueryResult | undefined>}
    */
   static async addConditionQuery(
@@ -28,7 +28,7 @@ class DB {
   /**
    * execute a query
    * @param {string} sql
-   * @param {any []} value
+   * @param {any[]} value
    * @returns {Promise<QueryResult | undefined>}
    */
 
