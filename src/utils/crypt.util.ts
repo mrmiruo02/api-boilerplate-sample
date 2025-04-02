@@ -5,11 +5,11 @@ import ValidationError from '../errors/ValidationError';
 dotenv.config();
 
 /**
- * encrypting the data
- * @param {string} text
+ * Encrypting the data (Handles both strings and numbers)
+ * @param {string | number | boolean} text
  * @returns {string}
  */
-const encrypt = (text: string): string => {
+const encrypt = (text?: string | number | boolean): string => {
   if (!process.env.APP_KEY) {
     throw new Error('APP_KEY is not defined');
   }
@@ -18,32 +18,33 @@ const encrypt = (text: string): string => {
   const iv = crypto.randomBytes(12); // 12-byte IV for AES-GCM
 
   const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
-  const encrypted = Buffer.concat([
-    cipher.update(text, 'utf8'),
-    cipher.final(),
-  ]);
+  // Convert the input to a string before encryption
+  const textToEncrypt = String(text);
+  const encrypted = Buffer.concat([cipher.update(textToEncrypt, 'utf8'), cipher.final()]);
   const authTag = cipher.getAuthTag(); // Get authentication tag
 
   return `${iv.toString('hex')}:${authTag.toString('hex')}:${encrypted.toString('hex')}`;
 };
 
 /**
- * decrypting the data
+ * Decrypting the data (Handles both strings and numbers)
  * @param {string} text
- * @returns {string}
+ * @returns {string | number}
  */
-const decrypt = (text: string): string => {
+const decrypt = (text?: string): string | number => {
   if (!process.env.APP_KEY) {
     throw new Error('APP_KEY is not defined');
+  }
+
+  if (!text) {
+    return '';
   }
 
   const key = crypto.scryptSync(process.env.APP_KEY, 'salt', 32); // Derive the key
   const parts = text.split(':');
 
   if (parts.length !== 3) {
-    throw new ValidationError([
-      { property: 'Encryption', message: 'Invalid Ecryption Format' },
-    ]);
+    throw new ValidationError([{ property: 'Encryption', message: 'Invalid Encryption Format' }]);
   }
 
   const iv = Buffer.from(parts[0], 'hex'); // Extract IV
@@ -57,7 +58,11 @@ const decrypt = (text: string): string => {
   let decrypted = decipher.update(encryptedBuffer);
   decrypted = Buffer.concat([decrypted, decipher.final()]);
 
-  return decrypted.toString('utf8'); // Convert to string after decryption
+  const decryptedText = decrypted.toString('utf8'); // Convert to string after decryption
+
+  // Try to parse it as a number if it's a valid number
+  const parsedNumber = parseFloat(decryptedText);
+  return isNaN(parsedNumber) ? decryptedText : parsedNumber;
 };
 
 export { encrypt, decrypt };

@@ -35,11 +35,7 @@ const storage = multer.diskStorage({
  * @param {multer.FileFilterCallback} cb
  * @returns {void}
  */
-const fileFilter = (
-  _req: unknown,
-  file: Express.Multer.File,
-  cb: multer.FileFilterCallback
-): void => {
+const fileFilter = (_req: unknown, file: Express.Multer.File, cb: multer.FileFilterCallback): void => {
   const allowedExtensions = ['.jpg', '.jpeg'];
   const ext = path.extname(file.originalname).toLowerCase();
 
@@ -75,9 +71,7 @@ const extractGPS = (filePath: string): GPSData | null => {
  * @param {string} filePath
  * @returns { {filePath: string, fileName: string, gpsData: GPSData | null} }
  */
-const imageProcess = (
-  filePath: string
-): { filePath: string; fileName: string; gpsData: GPSData | null } => {
+const imageProcess = (filePath: string): { filePath: string; fileName: string; gpsData: GPSData | null } => {
   const fileName = path.basename(filePath);
   const gpsData = extractGPS(filePath);
 

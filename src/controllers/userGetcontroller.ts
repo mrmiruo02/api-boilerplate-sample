@@ -1,17 +1,10 @@
 import validationInput from '../utils/validation.utils.ts';
-import {
-  userGetReqModel,
-  UserGetResModel,
-  userGetResModel,
-} from '../model/getUsers.model.ts';
+import { userGetReqModel, UserGetResModel, userGetResModel } from '../model/getUsers.model.ts';
 import userGet from '../persisters/getUsers.persister.ts';
 import { Request, Response } from 'express';
 import { decrypt } from '../utils/crypt.util.ts';
 
-const userGetController = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+const userGetController = async (req: Request, res: Response): Promise<void> => {
   const userData = validationInput(userGetReqModel, req.body); // Handles validation and throws if needed
 
   const usersList = (await userGet(userData)) as UserGetResModel;

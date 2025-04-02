@@ -1,7 +1,4 @@
-import {
-  userDeleteReqModel,
-  UserDeleteResModel,
-} from '../model/userDelete.model.ts';
+import { userDeleteReqModel, UserDeleteResModel } from '../model/userDelete.model.ts';
 import { Request, Response } from 'express';
 import deleteUserPersister from '../persisters/userDelete.persister.ts';
 import validationInput from '../utils/validation.utils.ts';

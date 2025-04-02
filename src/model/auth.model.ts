@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export const iAuthentication = z.array(
   z.object({
-    name: z.string(),
+    user_name: z.string(),
     password: z.string(),
   })
 );

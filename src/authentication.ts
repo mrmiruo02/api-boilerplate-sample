@@ -17,26 +17,18 @@ const app = express();
  * @param {express.NextFunction} next
  * @returns {void}
  */
-export const authenticateToken = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-): void => {
+export const authenticateToken = (req: express.Request, res: express.Response, next: express.NextFunction): void => {
   const token = req.cookies.token;
 
   if (token) {
-    jwt.verify(
-      token,
-      process.env.JWT_SECRET_KEY as string,
-      (error: unknown, decoded: unknown) => {
-        if (error) {
-          throw new AuthorizationError(error as []);
-        } else {
-          res.locals.jwt = decoded;
-          next();
-        }
+    jwt.verify(token, process.env.JWT_SECRET_KEY as string, (error: unknown, decoded: unknown) => {
+      if (error) {
+        throw new AuthorizationError(error as []);
+      } else {
+        res.locals.jwt = decoded;
+        next();
       }
-    );
+    });
   } else {
     throw new AuthorizationError([
       {
@@ -49,11 +41,11 @@ export const authenticateToken = (
 
 // Register user
 export const registerAuth = app.post('/auth/register', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, roles } = req.body;
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const sql = 'INSERT INTO auth_acc (name, password) VALUES (?, ?)';
-  const values = [username, hashedPassword];
+  const sql = 'INSERT INTO user_acc (user_name, password, roles) VALUES (?, ?, ?)';
+  const values = [username, hashedPassword, roles];
 
   try {
     await connection.query(sql, values).then(() => {
@@ -74,7 +66,7 @@ export const registerAuth = app.post('/auth/register', async (req, res) => {
 // Login Route
 export const loginAuth = app.get('/auth/login', async (req, res, next) => {
   const { username, password } = req.body;
-  const sql = 'SELECT * FROM auth_acc WHERE name = ?';
+  const sql = 'SELECT * FROM user_acc WHERE user_name = ?';
   const values = [username];
 
   try {
@@ -92,13 +84,9 @@ export const loginAuth = app.get('/auth/login', async (req, res, next) => {
     }
 
     // Generate JWT Token
-    const token = jwt.sign(
-      { id: user.id, username: user.name },
-      process.env.JWT_SECRET_KEY as string,
-      {
-        expiresIn: '1h',
-      }
-    );
+    const token = jwt.sign({ id: user.id, username: user.name }, process.env.JWT_SECRET_KEY as string, {
+      expiresIn: '1h',
+    });
 
     res
       .status(200)
@@ -111,7 +99,7 @@ export const loginAuth = app.get('/auth/login', async (req, res, next) => {
         status: 'success',
         code: 200,
         data: {
-          user: user.name,
+          user: user.user_name,
         },
       });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

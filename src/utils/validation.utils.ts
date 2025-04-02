@@ -16,10 +16,7 @@ const validationInput = <T>(schema: ZodSchema<T>, data: unknown): T => {
       const errorMessages: { message: string; property: string }[] = [];
 
       Object.entries(formattedErrors).forEach(([field, value]) => {
-        if (
-          typeof value === 'object' &&
-          Object.keys(value).includes('_errors')
-        ) {
+        if (typeof value === 'object' && Object.keys(value).includes('_errors')) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const errors = (value as any)._errors as string[];
           errors.forEach((msg) => {

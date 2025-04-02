@@ -1,12 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../errors/customError';
 
-const errorHandler = (
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) {
     return next(err); // Pass to default Express error handler if headers are sent
   }

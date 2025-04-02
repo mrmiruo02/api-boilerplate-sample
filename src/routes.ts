@@ -1,11 +1,11 @@
 import sampleUploadRoute from './routes/sampleUploadRout';
 import userDeleteRoute from './routes/userDeleteRout';
 import userGetRoute from './routes/userGetroute';
-import userRegisterRoute from './routes/userRegisterRoute';
+import createArboMasterListRoute from './routes/createArboMasterlist.route';
 
 export const routes = [
   { path: '/api/users', route: userGetRoute },
   { path: '/api/users/delete', route: userDeleteRoute },
-  { path: '/api/users/register', route: userRegisterRoute },
+  { path: '/api/arbo-masterlist/register', route: createArboMasterListRoute },
   { path: '/api/users/upload', route: sampleUploadRoute },
 ];

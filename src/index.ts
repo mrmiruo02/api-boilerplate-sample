@@ -1,11 +1,7 @@
 import express, { ErrorRequestHandler } from 'express';
 import dotenv from 'dotenv';
 import { routes } from './routes.ts';
-import {
-  authenticateToken,
-  loginAuth,
-  registerAuth,
-} from './authentication.ts';
+import { authenticateToken, loginAuth, registerAuth } from './authentication.ts';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import globalErrorHandler from './middleware/globalErrorHandler.ts';

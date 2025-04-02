@@ -10,11 +10,7 @@ const sampleUploadController = async (req: Request, res: Response) => {
     });
 
   const imageData = imageProcess(req.file.path);
-  if (
-    imageData.fileName !== '' ||
-    imageData.filePath !== '' ||
-    imageData.gpsData !== null
-  ) {
+  if (imageData.fileName !== '' || imageData.filePath !== '' || imageData.gpsData !== null) {
     const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${imageData.fileName}`;
     if (imageData.gpsData === null) {
       throw new ValidationError([

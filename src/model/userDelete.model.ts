@@ -7,8 +7,7 @@ export const userDeleteResModel = z.object({
   nickname: z.string(),
 });
 
-export type UserDeleteResModel = z.infer<typeof userDeleteResModel> &
-  RowDataPacket;
+export type UserDeleteResModel = z.infer<typeof userDeleteResModel> & RowDataPacket;
 
 export const userDeleteReqModel = z.object({
   id: z.number().min(1, 'id is required'),
