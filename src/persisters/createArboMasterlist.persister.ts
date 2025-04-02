@@ -20,7 +20,7 @@ const insertArboMasterList = async (param: ENCRYPT_ARBO_MASTERLIST) => {
     arbo_id, 
     oma_level_2013, 
     itema_status_2019, 
-    itema_level_2019, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    itema_level_2019, 
     itema_status_current, 
     itema_level_current, 
     organization_status, 

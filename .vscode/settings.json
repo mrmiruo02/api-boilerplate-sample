@@ -1,6 +1,9 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
+  "prettier.printWidth": 120, // Sets the line length where Prettier will wrap text
+  "prettier.proseWrap": "preserve", // Ensures text (like long strings) isn't auto-wrapped
+  "prettier.singleQuote": true, // Use single quotes for strings
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
