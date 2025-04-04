@@ -40,8 +40,8 @@ class DB {
     if (!sql) return;
     try {
       createLogger(sql);
-      const [results] = await connection.execute(sql, value);
-
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const [results]: any = await connection.query(sql, value);
       createLogger(results);
 
       return results;
