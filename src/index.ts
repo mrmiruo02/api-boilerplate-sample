@@ -5,12 +5,16 @@ import { authenticateToken, loginAuth, registerAuth } from './authentication.ts'
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import globalErrorHandler from './middleware/globalErrorHandler.ts';
+import httpLogger from './middleware/httpLogger.ts';
+import sqlLogger from './middleware/sqlLogger.ts';
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(sqlLogger);
+app.use(httpLogger);
 app.use('/api', registerAuth);
 app.use('/api', loginAuth);
 

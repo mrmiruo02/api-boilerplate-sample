@@ -1,6 +1,6 @@
 import { QueryResult } from 'mysql2';
 import connection from '../config/db.config';
-import createLogger from '../log';
+import { errorLogger } from '../log';
 
 class DB {
   /**
@@ -39,14 +39,13 @@ class DB {
   ): Promise<QueryResult | undefined> {
     if (!sql) return;
     try {
-      createLogger(sql);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const [results]: any = await connection.query(sql, value);
-      createLogger(results);
 
       return results;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
+      errorLogger(err);
       throw new Error(err.message);
     }
   }

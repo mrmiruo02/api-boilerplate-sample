@@ -1,4 +1,3 @@
-import { QueryResult } from 'mysql2';
 import path from 'path';
 import fs from 'fs';
 
@@ -25,7 +24,19 @@ const getLogFileName = (): string => {
  */
 
 const formatLogMessage = (level: string, message: object): string => {
-  return JSON.stringify({ level, message }) + '\n';
+  let safeMessage: string;
+
+  try {
+    safeMessage = JSON.stringify({ level, message }, null, 2);
+  } catch (err) {
+    safeMessage = JSON.stringify({
+      level,
+      message: 'Error serializing log message',
+      error: err,
+    });
+  }
+
+  return safeMessage + '\n';
 };
 
 /**
@@ -48,26 +59,38 @@ const writeLog = (level: string, message: object) => {
 
 /**
  * create a log file with message
- * @param {string | QueryResult} query
+ * @param {string} query
  * @returns {void}
  */
-const createLogger = (query?: string | QueryResult): void => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const createLogger = (logger: { timestamp: string; message: string; details?: any; result?: any }): void => {
+  // If the result is a stringified JSON, parse it to format it
+  if (logger.result && typeof logger.result === 'string') {
+    try {
+      logger.result = JSON.parse(logger.result); // Parse the result to object
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Error parsing result:', err);
+    }
+  }
+  return writeLog('info', logger);
+};
+
+/**
+ *
+ * @param {any} error
+ * @returns {void}
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const errorLogger = (error: any): void => {
   const timestamp = new Date().toISOString();
   const newDate = new Date(timestamp).toLocaleString();
 
-  if (typeof query === 'string') {
-    return writeLog('info', {
-      timestamp: newDate,
-      message: 'Query executed',
-      sql: query,
-    });
-  } else {
-    return writeLog('info', {
-      timestamp: newDate,
-      message: 'Query executed',
-      result: query,
-    });
-  }
+  return writeLog('error', {
+    timestamp: newDate,
+    message: 'Error occurred',
+    error: error.message,
+  });
 };
 
-export default createLogger;
+export { createLogger, errorLogger };

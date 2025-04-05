@@ -70,12 +70,15 @@ const decrypt = (text?: string | null): string | number | undefined | null => {
     return null;
   }
 
-  // Parse decrypted text as number if possible
-  const parsed = parseFloat(decryptedText);
+  // Check if decrypted text contains any letter
+  const containsLetters = /[a-zA-Z]/.test(decryptedText);
 
-  // If parsed value is a valid number, return it as a number
-  if (!isNaN(parsed)) {
-    return parsed;
+  // If it doesn't contain letters, try to parse it as a number
+  if (!containsLetters) {
+    const parsed = parseFloat(decryptedText);
+    if (!isNaN(parsed)) {
+      return parsed;
+    }
   }
 
   // Otherwise return as string

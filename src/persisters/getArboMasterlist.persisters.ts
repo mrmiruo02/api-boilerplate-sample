@@ -19,9 +19,9 @@ const getArboMasterlist = async (params?: CryptGetArboMasterlistResModel[]) => {
 // to follow
 const conditionalData = async (params: CryptGetArboMasterlistResModel[], sql: string) => {
   for (const data of params) {
-    if (data.total_2) {
-      const query = ' WHERE total_2 = ?';
-      const input = [data.total_2];
+    if (data.region_name) {
+      const query = ' WHERE region_name = ?';
+      const input = [data.region_name];
 
       const res = (await DB.addConditionQuery(sql, query, input)) as [];
 
