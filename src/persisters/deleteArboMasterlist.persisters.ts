@@ -1,7 +1,7 @@
 import NoDataFoundError from '../errors/NoDataFoundError.ts';
 import { CryptDeleteArboMasterlistModel } from '../model/crypt/deleteArboMasterlistCrypt.model.ts';
 import { DeleteArboMasterlistResModel } from '../model/response/deleteArboMasterlistRes.model.ts';
-import DB from './db.service.ts';
+import DB from '../service/db.service.ts';
 
 const deleteUserPersister = async (param: CryptDeleteArboMasterlistModel) => {
   const searchQuery = `

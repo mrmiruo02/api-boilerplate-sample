@@ -1,6 +1,6 @@
 import { CryptUpdateArboMasterlistResModel } from '../model/crypt/updateArboMasterlistCrypt.model.ts';
 import { UpdateArboMasterlistResModel } from '../model/response/updateArboMasterlistRes.model.ts';
-import DB from './db.service.ts';
+import DB from '../service/db.service.ts';
 
 const updateArboMasterlist = async (param: CryptUpdateArboMasterlistResModel[]) => {
   const searchPrimary = `SELECT arbo_master_primary_key FROM arbo_masterlist WHERE id = ?`;

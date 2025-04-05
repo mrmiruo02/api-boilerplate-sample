@@ -5,6 +5,6 @@ import asyncHandler from './asyncHandler.ts';
 const getArboMasterlistRoutes = express.Router();
 
 // get all the users
-getArboMasterlistRoutes.get('/', asyncHandler(getArboMasterlistController));
+getArboMasterlistRoutes.get('/', asyncHandler(getArboMasterlistController.controller));
 
 export default getArboMasterlistRoutes;

@@ -1,141 +1,26 @@
-import insertArboMasterList from '../persisters/createArboMasterlist.persister.ts';
-import validationInput from '../utils/validation.utils.ts';
-import { createArboMasterlistReq } from '../model/request/createArboMasterlistReq.model.ts';
 import { Request, Response } from 'express';
-import { encrypt } from '../utils/crypt.util.ts';
-import { v7 as uuidv7 } from 'uuid';
+import { CreateArboMasterlistReq, createArboMasterlistReq } from '../model/request/createArboMasterlistReq.model';
+import validationInput from '../utils/validation.utils';
+import createArboMasterlistService from '../service/createArboMasterlist.service';
 
-/**
- * Register a user in the database with valid credentials
- * @param {Request} req
- * @param {Response} res
- */
-const createArboMasterlistController = async (req: Request, res: Response): Promise<void> => {
-  const masterlist = validationInput(createArboMasterlistReq, req.body); // Handles validation and throws if needed
-  const timeStamp = new Date().toISOString();
-  const status = 'pending'; //when the user insert a value on a table its always pending status
+const controller = async (req: Request, res: Response) => {
+  try {
+    const reqParams = validationInput(createArboMasterlistReq, req.body) as CreateArboMasterlistReq;
 
-  const encryptData = masterlist.map((item) => ({
-    id: uuidv7(),
-    region_name: encrypt(item.region_name),
-    region_code: encrypt(item.region_code),
-    province_name: encrypt(item.province_name),
-    province_code: encrypt(item.province_code),
-    muncity_name: encrypt(item.muncity_name),
-    muncity_code: encrypt(item.muncity_code),
-    barangay_name: encrypt(item.barangay_name),
-    barangay_code: encrypt(item.barangay_code),
-    cd: encrypt(item.cd),
-    arc_type: encrypt(item.arc_type),
-    arc_id: encrypt(item.arc_id),
-    arc_name: encrypt(item.arc_name),
-    arc_cluster_name: encrypt(item.arc_cluster_name),
-    arbo_name: encrypt(item.arbo_name),
-    arbo_id: encrypt(item.arbo_id),
-    oma_level_2013: encrypt(item.oma_level_2013),
-    itema_status_2019: encrypt(item.itema_status_2019),
-    itema_level_2019: encrypt(item.itema_level_2019),
-    itema_status_current: encrypt(item.itema_status_current),
-    itema_level_current: encrypt(item.itema_level_current),
-    organization_status: encrypt(item.organization_status),
-    organization_type: encrypt(item.organization_type),
-    year_organized: encrypt(item.year_organized),
-    registering_agency: encrypt(item.registering_agency),
-    year_registration: encrypt(item.year_registration),
-    baseline_members: encrypt(item.baseline_members),
-    baseline_members_male: encrypt(item.baseline_members_male),
-    baseline_members_female: encrypt(item.baseline_members_female),
-    baseline_total_arbs: encrypt(item.baseline_total_arbs),
-    baseline_male_arbs: encrypt(item.baseline_male_arbs),
-    baseline_female_arbs: encrypt(item.baseline_female_arbs),
-    baseline_total_nonarbs: encrypt(item.baseline_total_nonarbs),
-    baseline_male_nonarbs: encrypt(item.baseline_male_nonarbs),
-    baseline_female_nonarbs: encrypt(item.baseline_female_nonarbs),
-    current_members: encrypt(item.current_members),
-    current_members_male: encrypt(item.current_members_male),
-    current_members_female: encrypt(item.current_members_female),
-    current_total_arbs: encrypt(item.current_total_arbs),
-    current_male_arbs: encrypt(item.current_male_arbs),
-    current_female_arbs: encrypt(item.current_female_arbs),
-    current_total_nonarbs: encrypt(item.current_total_nonarbs),
-    current_male_nonarbs: encrypt(item.current_male_nonarbs),
-    current_female_nonarbs: encrypt(item.current_female_nonarbs),
-    cbu_current: encrypt(item.cbu_current),
-    cbu_mem_current: encrypt(item.cbu_mem_current),
-    savings_current: encrypt(item.savings_current),
-    sav_mem_current: encrypt(item.sav_mem_current),
-    assets_current: encrypt(item.assets_current),
-    liabilities_current: encrypt(item.liabilities_current),
-    services_provided: encrypt(item.services_provided),
-    trainings_cap_dev: encrypt(item.trainings_cap_dev),
-    apcp: encrypt(item.apcp),
-    linksfarm: encrypt(item.linksfarm),
-    up_valuing: encrypt(item.up_valuing),
-    cp_wash: encrypt(item.cp_wash),
-    coop_strengthening: encrypt(item.coop_strengthening),
-    vlcep: encrypt(item.vlcep),
-    vlfed: encrypt(item.vlfed),
-    pbd_lawyering: encrypt(item.pbd_lawyering),
-    social_entrep: encrypt(item.social_entrep),
-    sustainable_debris: encrypt(item.sustainable_debris),
-    sustainable_livelihood: encrypt(item.sustainable_livelihood),
-    climate_proofing: encrypt(item.climate_proofing),
-    pahp: encrypt(item.pahp),
-    cbvcd: encrypt(item.cbvcd),
-    fbs: encrypt(item.fbs),
-    pilot_climate_proof: encrypt(item.pilot_climate_proof),
-    cap_pbd: encrypt(item.cap_pbd),
-    card: encrypt(item.card),
-    watsan: encrypt(item.watsan),
-    pablo: encrypt(item.pablo),
-    micoop: encrypt(item.micoop),
-    malp: encrypt(item.malp),
-    csf: encrypt(item.csf),
-    aes: encrypt(item.aes),
-    bds: encrypt(item.bds),
-    pamana: encrypt(item.pamana),
-    bub_dar: encrypt(item.bub_dar),
-    arf: encrypt(item.arf),
-    sbfp: encrypt(item.sbfp),
-    claap: encrypt(item.claap),
-    arbold: encrypt(item.arbold),
-    total_1: encrypt(item.total_1),
-    arcdp_i: encrypt(item.arcdp_i),
-    arcdp_ii: encrypt(item.arcdp_ii),
-    arcp_i: encrypt(item.arcp_i),
-    arcp_ii: encrypt(item.arcp_ii),
-    arisp_i: encrypt(item.arisp_i),
-    arisp_ii: encrypt(item.arisp_ii),
-    arisp_iii: encrypt(item.arisp_iii),
-    bcsea_bazal: encrypt(item.bcsea_bazal),
-    bcsea_umiray: encrypt(item.bcsea_umiray),
-    birasp: encrypt(item.birasp),
-    cmarprp: encrypt(item.cmarprp),
-    converge: encrypt(item.converge),
-    iarcdsp: encrypt(item.iarcdsp),
-    minsaad: encrypt(item.minsaad),
-    nmciremp: encrypt(item.nmciremp),
-    papsra: encrypt(item.papsra),
-    spots: encrypt(item.spots),
-    spots_ii: encrypt(item.spots_ii),
-    starcm: encrypt(item.starcm),
-    tpkp: encrypt(item.tpkp),
-    wmcip: encrypt(item.wmcip),
-    total_2: encrypt(item.total_2),
-    grand_total: encrypt(item.grand_total),
-    remarks: encrypt(item.remarks),
-    status: status,
-    time_stamp: timeStamp,
-  }));
+    await createArboMasterlistService.businessLogic(reqParams);
 
-  await insertArboMasterList(encryptData);
-
-  res.status(201).json({
-    status: 'success',
-    code: 201,
-    message: 'successfully registered user',
-    data: masterlist,
-  });
+    res.status(201).json({
+      status: 'success',
+      code: 201,
+      message: 'successfully registered user',
+      data: reqParams,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    throw new Error(err);
+  }
 };
+
+const createArboMasterlistController = { controller };
 
 export default createArboMasterlistController;

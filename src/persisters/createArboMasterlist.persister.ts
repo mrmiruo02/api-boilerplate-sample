@@ -1,5 +1,5 @@
 import { EncryptCreateArboMasterlist } from '../model/crypt/createArboMasterlistCrypt.model.ts';
-import DB from './db.service.ts';
+import DB from '../service/db.service.ts';
 
 const insertArboMasterList = async (param: EncryptCreateArboMasterlist[]) => {
   const query = `INSERT INTO arbo_masterlist (

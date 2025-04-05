@@ -5,6 +5,6 @@ import createArboMasterlistController from '../controllers/createArboMasterlist.
 const createArboMasterlistRoute = express.Router();
 
 // register users
-createArboMasterlistRoute.post('/', asyncHandler(createArboMasterlistController));
+createArboMasterlistRoute.post('/', asyncHandler(createArboMasterlistController.controller));
 
 export default createArboMasterlistRoute;
