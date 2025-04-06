@@ -20,8 +20,7 @@ const controller = async (req: Request, res: Response, next: NextFunction) => {
       message: 'successfully retrieve user',
       data: results,
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
+  } catch (err: unknown) {
     next(err);
   }
 };

@@ -3,7 +3,7 @@ import { z } from 'zod';
 // for delete request model
 export const updateArboMasterlistReqModel = z.array(
   z.object({
-    id: z.string(),
+    id: z.string().min(36),
     region_name: z.string().optional().nullable().default(null),
     region_code: z.string().optional().nullable().default(null),
     province_name: z.string().optional().nullable().default(null),
