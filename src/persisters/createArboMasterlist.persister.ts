@@ -229,7 +229,8 @@ const insertArboMasterList = async (param: EncryptCreateArboMasterlist[]) => {
     item.time_stamp,
   ]);
 
-  await DB.execute(query, [values]);
+  const result = await DB.execute(query, [values]);
+  return result;
 };
 
 export default insertArboMasterList;

@@ -3,11 +3,12 @@ import { CryptDeleteArboMasterlistModel } from '../model/crypt/deleteArboMasterl
 import { DeleteArboMasterlistResModel } from '../model/response/deleteArboMasterlistRes.model.ts';
 import DB from '../service/db.service.ts';
 
-const deleteUserPersister = async (param: CryptDeleteArboMasterlistModel) => {
+const deleteUserPersister = async (param: CryptDeleteArboMasterlistModel[]) => {
+  const placeholders = param.map(() => '?').join(',');
   const searchQuery = `
-  SELECT id from arbo_masterlist WHERE id = ?`;
+  SELECT id from arbo_masterlist WHERE id IN (${placeholders})`;
 
-  const deleteValue = [param.id];
+  const deleteValue = param.map((item) => item.id);
 
   const searchResults = (await DB.execute(searchQuery, deleteValue)) as unknown as DeleteArboMasterlistResModel[];
 

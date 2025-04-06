@@ -5,6 +5,6 @@ import updateArboMasterlistController from '../controllers/updateArboMasterlist.
 const updateArboMasterlistRoute = express.Router();
 
 // get all the users
-updateArboMasterlistRoute.put('/', asyncHandler(updateArboMasterlistController));
+updateArboMasterlistRoute.put('/', asyncHandler(updateArboMasterlistController.controller));
 
 export default updateArboMasterlistRoute;

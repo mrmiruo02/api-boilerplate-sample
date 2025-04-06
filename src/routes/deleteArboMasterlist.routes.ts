@@ -5,6 +5,6 @@ import asyncHandler from './asyncHandler';
 const deleteArboMasterlistRoutes = express.Router();
 
 // delete users
-deleteArboMasterlistRoutes.delete('/', asyncHandler(deleteArboMasterlistController));
+deleteArboMasterlistRoutes.delete('/', asyncHandler(deleteArboMasterlistController.controller));
 
 export default deleteArboMasterlistRoutes;

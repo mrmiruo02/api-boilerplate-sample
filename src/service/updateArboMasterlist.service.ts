@@ -1,20 +1,18 @@
-import insertArboMasterList from '../persisters/createArboMasterlist.persister.ts';
-import { CreateArboMasterlistReq } from '../model/request/createArboMasterlistReq.model.ts';
 import { encrypt } from '../utils/crypt.util.ts';
-import { v7 as uuidv7 } from 'uuid';
+import { UpdateArboMasterlistReqModel } from '../model/request/updateArboMasterlistReq.model.ts';
+import updateArboMasterlist from '../persisters/updateArboMasterlist.persister.ts';
 import { QueryResult } from 'mysql2';
 
 /**
  * Register a user in the database with valid credentials
  * @param {Request} req
- * @returns {Promise<void>}
+ * @param {Response} res
  */
-const businessLogic = async (req: CreateArboMasterlistReq): Promise<QueryResult | undefined> => {
+const businessLogic = async (req: UpdateArboMasterlistReqModel): Promise<QueryResult | undefined> => {
   const timeStamp = new Date().toISOString();
-  const status = 'pending'; //when the user insert a value on a table its always pending status
 
   const encryptData = req.map((item) => ({
-    id: uuidv7(),
+    id: item.id,
     region_name: encrypt(item.region_name),
     region_code: encrypt(item.region_code),
     province_name: encrypt(item.province_name),
@@ -122,15 +120,15 @@ const businessLogic = async (req: CreateArboMasterlistReq): Promise<QueryResult 
     total_2: encrypt(item.total_2),
     grand_total: encrypt(item.grand_total),
     remarks: encrypt(item.remarks),
-    status: status,
+    status: item.status,
     time_stamp: timeStamp,
   }));
 
-  const result = await insertArboMasterList(encryptData);
+  const result = await updateArboMasterlist(encryptData);
 
   return result;
 };
 
-const createArboMasterlistService = { businessLogic };
+const updateArboMasterlistService = { businessLogic };
 
-export default createArboMasterlistService;
+export default updateArboMasterlistService;

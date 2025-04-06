@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { GetArboMasterlistReqModel, getArboMasterlistReqModel } from '../model/request/getArboMasterlistReq.model';
 import validationInput from '../utils/validation.utils';
 import getArboMasterlistService from '../service/getArboMasterlist.service';
 
-const controller = async (req: Request, res: Response) => {
+const controller = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let requestSearch = true;
 
@@ -16,13 +16,13 @@ const controller = async (req: Request, res: Response) => {
 
     res.status(201).json({
       status: 'success',
-      code: 201,
+      code: 200,
       message: 'successfully retrieve user',
       data: results,
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    throw new Error(err);
+    next(err);
   }
 };
 
