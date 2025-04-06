@@ -1,5 +1,5 @@
 import express from 'express';
-import asyncHandler from './asyncHandler.ts';
+import asyncHandler from '../utils/asyncHandler.util.ts';
 import updateArboMasterlistController from '../controllers/updateArboMasterlist.controller.ts';
 
 const updateArboMasterlistRoute = express.Router();
