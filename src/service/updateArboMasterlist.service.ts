@@ -6,7 +6,6 @@ import { QueryResult } from 'mysql2';
 /**
  * Register a user in the database with valid credentials
  * @param {Request} req
- * @param {Response} res
  */
 const businessLogic = async (req: UpdateArboMasterlistReqModel): Promise<QueryResult | undefined> => {
   const timeStamp = new Date().toISOString();
